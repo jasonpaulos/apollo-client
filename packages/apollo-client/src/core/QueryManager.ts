@@ -387,7 +387,7 @@ export class QueryManager<TStore> {
     const requestId = this.idCounter++;
 
     // set up a watcher to listen to cache updates
-    const cancel = fetchPolicy !== 'no-cache'
+    const cancel = (fetchPolicy !== 'no-cache' && fetchPolicy !== 'network-only')
       ? this.updateQueryWatch(queryId, query, options)
       : undefined;
 
@@ -495,6 +495,11 @@ export class QueryManager<TStore> {
         newData: { result: result.data, complete: true },
       }));
     } else {
+      if (fetchPolicy === 'network-only') {
+        this.setQuery(queryId, () => ({
+          newData: { result: result.data, complete: true },
+        }));
+      }
       this.dataStore.markQueryResult(
         result,
         this.getQuery(queryId).document!,
