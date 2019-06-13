@@ -557,7 +557,8 @@ export class QueryManager<TStore> {
         (!newData && queryStoreValue.previousVariables) ||
         (networkStatusChanged && options.notifyOnNetworkStatusChange) ||
         fetchPolicy === 'cache-only' ||
-        fetchPolicy === 'cache-and-network';
+        fetchPolicy === 'cache-and-network' ||
+        fetchPolicy === 'network-only';
 
       if (loading && !shouldNotifyIfLoading) {
         return;
